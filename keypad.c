@@ -5,7 +5,7 @@
  * Mest signifikanta bitar är 4 in- och 4 utpinnar kopplade till ett tangentbord (5500)*/
      void keypad_init(void)
 {
-    const uint32_t Kbd_Disp_pinmode = 0x55005555; 
+    const uint32_t Kbd_Disp_pinmode = 0x55000000; 
     const uint16_t Kbd_Disp_otype = 0x0000;       /*alla pinnar ställs som pushpull*/
     const uint32_t Kbd_Disp_pupd = 0x00aa0000;    /*inpinnar från kolumnerna pulluppulldow*/
 
@@ -13,20 +13,6 @@
     GPIO_D.otyper = Kbd_Disp_otype;
     GPIO_D.pupdr = Kbd_Disp_pupd;
 
-}
-
-/*bitmönster i rätt ordning (från 0 till 15) för att visa en siffra på 7SegDisplay*/
-static const uint8_t bit_patterns []= {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71}; 
-
-/*visa rätt siffra på display. En siffra(c) skickas in och den siffran ska visas på displayen*/
-void out7Seg(uint8_t c)
-{  
-    if (c < 0 || c > 15)
-    {
-        GPIO_D.odr_low = 0x00;   /*om det är fel, visar ingenting*/
-    }
-    else 
-        GPIO_D.odr_low = bit_patterns[c];   /*c är index för arreyen.*/
 }
 
 /*den aktiverar en rad, sätt spänning på "kablarna". Row är ett värde som kan vara 1,2,3,4 eller 0*/

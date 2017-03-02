@@ -3,7 +3,9 @@
 
 #include "gpio.h"
 
-void delay(uint32_t count);
-static void start_delay_250ns(void);
+void delay_250ns(void); 
+void delay_500ns(void); 
+void delay_micro(uint32_t us); 
+void delay_ms(uint32_t ms);
 
 #endif

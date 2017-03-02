@@ -119,8 +119,6 @@ monitor restart</PostConnectCommands>
   </Settings>
   <VirtualDirectory Name="src">
     <File Name="bits.h"/>
-    <File Name="delay.c"/>
-    <File Name="delay.h"/>
     <File Name="gameObj.c"/>
     <File Name="gameObj.h"/>
     <File Name="gpio.h"/>
@@ -132,6 +130,10 @@ monitor restart</PostConnectCommands>
     <File Name="timer.h"/>
     <File Name="types.h"/>
     <File Name="irq.h"/>
+    <File Name="irq_delay.c"/>
+    <File Name="irq_delay.h"/>
+    <File Name="delay.c"/>
+    <File Name="delay.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="md407-ram.x"/>
