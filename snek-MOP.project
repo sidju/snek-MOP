@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="snek-MOP" InternalType="User templates">
+<CodeLite_Project Name="snek-MOP" InternalType="User templates" Version="10.0.0">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00010001N0005Debug000000000000]]>
@@ -128,7 +128,6 @@ monitor restart</PostConnectCommands>
     <File Name="GrafiskDisp.h"/>
     <File Name="keypad.c"/>
     <File Name="keypad.h"/>
-    <File Name="main.c"/>
     <File Name="startup.c"/>
     <File Name="timer.h"/>
     <File Name="types.h"/>
