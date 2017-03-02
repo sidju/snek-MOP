@@ -118,9 +118,25 @@ monitor restart</PostConnectCommands>
     </Configuration>
   </Settings>
   <VirtualDirectory Name="src">
+    <File Name="bits.h"/>
+    <File Name="delay.c"/>
+    <File Name="delay.h"/>
+    <File Name="gameObj.c"/>
+    <File Name="gameObj.h"/>
+    <File Name="gpio.h"/>
+    <File Name="grafikDisp.c"/>
+    <File Name="GrafiskDisp.h"/>
+    <File Name="keypad.c"/>
+    <File Name="keypad.h"/>
+    <File Name="main.c"/>
     <File Name="startup.c"/>
+    <File Name="timer.h"/>
+    <File Name="types.h"/>
+    <File Name="irq.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="md407-ram.x"/>
   </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

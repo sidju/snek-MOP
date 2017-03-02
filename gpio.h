@@ -1,6 +1,14 @@
 #ifndef GPIO_H
 #define GPIO_H
-#include "types.h"
+
+
+/*alias skapas för att undvika onödiga repetitioner*/
+typedef unsigned int uint32_t;
+typedef unsigned short uint16_t;
+typedef unsigned char uint8_t;
+typedef signed int sint32_t;
+typedef signed short sint16_t;
+typedef signed char sint8_t;
 
 /*struct som innehåller definition av en gpio port
  * structuren som i boken s.67*/
