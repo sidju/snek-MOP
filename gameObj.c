@@ -1,5 +1,5 @@
 #include "gameObj.h"
-#include "GrafiskDisp.h"
+#include "grafikDisp.h"
 
 static draw_or_clear_object(POBJECT obj, uint8_t set)
 {

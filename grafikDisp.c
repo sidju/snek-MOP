@@ -1,5 +1,5 @@
 #include "gpio.h"
-#include "GrafiskDisp.h"
+#include "grafikDisp.h"
 #include "bits.h"
 #include "timer.h"
 

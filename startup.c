@@ -71,15 +71,31 @@ static void init_game(void)
 	ascii_gotoxy(1, 1);
 	/* Här: skriv ut score 0 */
 }
+
+
+static void play_game(void)
+{
+	init_game();
+	//Execute the game
+	while(1) {
+		/* ... */
+	}
+}
 	
 
 void main(void)
 {
 	/* Här: anropa alla init-funktioner */
-	
-	while(1) {
-		init_game();
-		/* ... */
+	//keypad on upper GPIO D
+	keypad_init();
+	//Display on entire GPIO E
+	init_app(); //init for graphics display. (Lite illa valt namn)
+	ascii_init();
+	while(1)
+	{
+		show_menu;
+		play_game;
+		game_over;
 	}
 	
 }

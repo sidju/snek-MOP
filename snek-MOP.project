@@ -123,7 +123,6 @@ monitor restart</PostConnectCommands>
     <File Name="gameObj.h"/>
     <File Name="gpio.h"/>
     <File Name="grafikDisp.c"/>
-    <File Name="GrafiskDisp.h"/>
     <File Name="keypad.c"/>
     <File Name="keypad.h"/>
     <File Name="startup.c"/>
@@ -134,6 +133,9 @@ monitor restart</PostConnectCommands>
     <File Name="irq_delay.h"/>
     <File Name="delay.c"/>
     <File Name="delay.h"/>
+    <File Name="grafikDisp.h"/>
+    <File Name="ascii.c"/>
+    <File Name="ascii.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="md407-ram.x"/>
