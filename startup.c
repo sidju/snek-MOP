@@ -233,7 +233,8 @@ static void play_game(void)
 	
 static void show_game_over(void)
 {
-	return;
+	graphic_clearScreen();
+	ascii_print("Game Over");
 }
 
 
