@@ -33,19 +33,19 @@ void move_object(POBJECT obj)
     /* objektet hamnar för långt åt vänster : studsa och se till
      * att objektet inte går utanför skärmen */
     if (new_posx < 1) {
-        game_over=1;
+        game_over = 1;
 		return;
     }
     
     /* objektet hamnar för långt åt höger : studsa och se till
      * att objektet inte går utanför skärmen */
     if (new_posx + obj->geo->sizex > 128) {
-        game_over=1;
+        game_over = 1;
 		return;
     }
     
     if (new_posy < 1) {
-        game_over=1;
+        game_over = 1;
 		return;
     }
     

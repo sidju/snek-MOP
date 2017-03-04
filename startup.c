@@ -2,6 +2,11 @@
  * 	startup.c
  *
  */
+ 
+#include "types.h"
+#include "ascii.h"
+#include "grafikDisp.h"
+ 
 void startup(void) __attribute__((naked)) __attribute__((section (".start_section")) );
 
 void startup ( void )
@@ -66,6 +71,37 @@ static void new_apple(void)
 }
 
 
+static void print_score(void) {
+	uint8_t ascii;
+    int local_score = score;
+    
+	/* division med 10 går inte att kompilera */
+	
+    if (local_score > 99)
+        local_score = 99;
+    
+    /* tiotalen */
+    if (local_score >= 10) {
+        ascii = '0';
+        
+        while (local_score >= 10) {
+            ascii++;
+            local_score = local_score - 10;
+        }
+        
+        ascii_write_char(ascii);
+    }
+    
+    /* ettalet */
+    ascii_write_char(local_score + '0');
+}
+
+static void full_print_score(void) {
+    ascii_gotoxy(1, 1);
+    ascii_print("Score: ");
+    print_score();
+}
+
 static void init_game(void)
 {
     tail = malloc(sizeof(SEGMENT));   /*reservera plats på heapen för ett segment*/
@@ -78,12 +114,10 @@ static void init_game(void)
         grow_snake(); 
     }
 	
-	/* Här: placera ut mat */
+	new_apple();
 	
-	ascii_gotoxy(1, 1);
-	/* Här: skriv ut score 0 */
+	full_print_score();
 }
-
 
 static void check_collision()
 {
@@ -101,7 +135,8 @@ static void check_collision()
 	if ((head->x==apple->x) && (head->y==apple->y))
 	{
 		score++;
-		new_apple;
+		new_apple();
+		full_print_score();
 	}
 }
 

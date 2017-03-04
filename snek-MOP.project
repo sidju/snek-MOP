@@ -119,8 +119,8 @@ monitor restart</PostConnectCommands>
   </Settings>
   <VirtualDirectory Name="src">
     <File Name="bits.h"/>
-    <File Name="gameObj.c"/>
-    <File Name="gameObj.h"/>
+    <File Name="gameObj.c" ExcludeProjConfig="Debug"/>
+    <File Name="gameObj.h" ExcludeProjConfig="Debug"/>
     <File Name="gpio.h"/>
     <File Name="grafikDisp.c"/>
     <File Name="keypad.c"/>
