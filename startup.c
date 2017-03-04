@@ -33,6 +33,8 @@ typedef struct dot {
 	uint8_t y;
 } DOT;
 
+#define INITIAL_LENGTH 4
+
 static SEGMENT *tail;
 static SEGMENT *head;
 static DOT *apple;
@@ -117,6 +119,10 @@ static void full_print_score(void) {
     print_score();
 }
 
+static void main_menu(void)
+{
+}
+
 static void init_game(void)
 {
 	int i;
@@ -149,6 +155,7 @@ static void check_collision()
 		ptr = ptr->next;
 	}
 	
+	/* varje SEGMENT = 2x2 pixels */
 	if (head->x < 1 || head->x > 62)
 	{
 		game_over = 1;
@@ -169,6 +176,22 @@ static void check_collision()
 	}
 }
 
+static void free_game(void)
+{
+    SEGMENT *ptr = tail;
+    SEGMENT *next;
+    
+    while (ptr != NULL) {
+        next = ptr->next;
+        free(ptr);
+        ptr = next;
+    }
+    
+    head = NULL;
+    tail = NULL;
+
+	free(apple);
+}
 
 static void play_game(void)
 {
@@ -180,7 +203,7 @@ static void play_game(void)
 		write_disp();
 		write_ascii();
 	}
-	free_game(snake, apple);
+	free_game();
 }
 	
 
@@ -194,8 +217,8 @@ void main(void)
 	ascii_init();
 	while(1)
 	{
-		show_menu; //innefattar "game_over = 0;" samt "score = 0;"
-		play_game;
+		show_menu(); //innefattar "game_over = 0;" samt "score = 0;"
+		play_game();
 		game_over;
 	}
 	
