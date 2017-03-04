@@ -84,7 +84,28 @@ static void grow_snake(void)
 
 static void new_apple(void)
 {
-	
+	int good = 0;
+	while(good == 0) 
+	{
+		int no_collide = 1;
+		apple->x= (rand()%62);
+		apple->y= (rand()%30);
+
+		SEGMENT* ptr = tail;
+		while(ptr != head) 
+		{
+			if((apple->x == ptr->x) && (apple->y == ptr->y)) 
+			{
+				no_collide = 0;
+				break;
+			}
+		ptr = ptr->next;
+		}
+		if(no_collide)
+		{
+			good = 1;
+		}
+	}
 }
 
 
@@ -93,6 +114,7 @@ static void print_score(void) {
     int local_score = score;
     
 	/* division med 10 går inte att kompilera */
+	//hexadecimal poängräkning kanske?
 	
     if (local_score > 99)
         local_score = 99;
@@ -136,7 +158,8 @@ static void init_game(void)
     for (i = 1; i < INITIAL_LENGTH; i++) {
         grow_snake(); 
     }
-	
+	srand(score); //rand initieras med förra spelets slut score. Kan ordnas med timer istället
+	score = 0;
 	new_apple();
 	
 	full_print_score();
@@ -171,8 +194,8 @@ static void check_collision()
 	if ((head->x==apple->x) && (head->y==apple->y))
 	{
 		score++;
-		new_apple();
 		full_print_score();
+		new_apple();
 	}
 }
 
@@ -195,11 +218,11 @@ static void free_game(void)
 
 static void play_game(void)
 {
-	init_game(); //hur lämnar vi ut de relevanta pekarna?
+	init_game();
 	//Execute the game
 	while(game_over == 0) {
 		control_snake();
-		check_collsion(); //creates new apple if necessary
+		check_collision(); //creates new apple if necessary
 		write_disp();
 		write_ascii();
 	}
@@ -217,9 +240,9 @@ void main(void)
 	ascii_init();
 	while(1)
 	{
-		show_menu(); //innefattar "game_over = 0;" samt "score = 0;"
-		play_game();
-		game_over;
+		show_menu();
+		play_game(); //nollställer score efter att ha initierat srand och game_over i init_game
+		game_over();
 	}
 	
 }
