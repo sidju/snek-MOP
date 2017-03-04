@@ -6,7 +6,9 @@
 #include "types.h"
 #include "ascii.h"
 #include "grafikDisp.h"
- 
+
+#define NULL ((void *)0)
+
 void startup(void) __attribute__((naked)) __attribute__((section (".start_section")) );
 
 void startup ( void )
@@ -37,6 +39,19 @@ static DOT *apple;
 static sint32_t dirx, diry;
 int game_over, score;
 
+static uint32_t next = 1;
+
+static uint32_t rand(void)
+{
+    next = next * 1103515245 + 12345;
+    return (uint32_t)(next/65536) % 32768;	
+}
+
+/*starta slupmgenerator*/
+static void srand(uint32_t seed)
+{
+    next = seed;
+}
 
 /*flytta ett svans-segment så det blir det nya huvudet*/ 
 static void move_snake(void)
@@ -104,6 +119,8 @@ static void full_print_score(void) {
 
 static void init_game(void)
 {
+	int i;
+	
     tail = malloc(sizeof(SEGMENT));   /*reservera plats på heapen för ett segment*/
     head = tail;
     tail->x = 30;   /*placera ormen i mitten på skärmen*/
@@ -124,14 +141,26 @@ static void check_collision()
 	SEGMENT* ptr = tail;
 	while (ptr != head)
 	{
-		//px används som generell figur så att delar av strukturen i gameObj kan användas igen
-		if ((head->x==ptr->x) && (head->y==ptr->y) || (head->x < 0) || (head->y < 0) || (head->x + px->geo->sizex > 128) || (head->y + px->geo->sizey > 128 ))
+		if ((head->x==ptr->x) && (head->y==ptr->y))
 		{
 			game_over = 1;
 			return;
 		}
 		ptr = ptr->next;
 	}
+	
+	if (head->x < 1 || head->x > 62)
+	{
+		game_over = 1;
+		return;
+	}
+	
+	if (head->y < 1 || head->y > 30)
+	{
+		game_over = 1;
+		return;
+	}
+	
 	if ((head->x==apple->x) && (head->y==apple->y))
 	{
 		score++;
