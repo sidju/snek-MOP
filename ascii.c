@@ -21,7 +21,7 @@ void ascii_write_controller(uint8_t data)
 {
     ascii_ctrl_bit_set(B_E);  /*enable bit, bit6 */
     GPIO_E.odr_high = data; 
-    delay_xus(250); 
+    delay_us(250); 
     ascii_ctrl_bit_clear(B_E);   /*färdig med skrivningen*/
     /*delay_10ns(); Det behövs inte. Tiden är så kort*/
 }
@@ -30,9 +30,9 @@ void ascii_write_controller(uint8_t data)
 void ascii_write_cmd(uint8_t command)
 {
     ascii_ctrl_bit_clear(B_RS | B_RW);  /*nollställ bit 0 och 1*/
-    delay_xus(40);
+    delay_us(40);
 	ascii_write_controller(command);    /*info som ska skickas*/
-    delay_xus(250);    /*enligt tidsdiagrammet*/
+    delay_us(250);    /*enligt tidsdiagrammet*/
 }
 
 void ascii_write_data(uint8_t data)
@@ -40,19 +40,19 @@ void ascii_write_data(uint8_t data)
     ascii_ctrl_bit_set(B_RS); 
     ascii_ctrl_bit_clear(B_RW);  
     ascii_write_controller(data);    
-    delay_xus(250);    
+    delay_us(250);    
 }
 
 uint8_t ascii_read_controller()
 {
     uint8_t rv; 
     ascii_ctrl_bit_set(B_E);
-    delay_xus(360);
+    delay_us(360);
     rv= GPIO_E.idr_high;   /*läser från data bussen*/
-    delay_xus(90);  /*1000 -360-550*/
+    delay_us(90);  /*1000 -360-550*/
     ascii_ctrl_bit_clear(B_E); 
     /*vänta 550ns*/
-    delay_xus(1);
+    delay_us(1);
     return rv; 
 }
 
@@ -81,9 +81,9 @@ uint8_t ascii_read_data()
 void ascii_command (uint8_t command, uint32_t delay)
 {
     while((ascii_read_status() & 0x080)== 0x080) ;
-   delay_xms(8);
+   delay_ms(8);
    ascii_write_cmd(command);
-   delay_xms(delay);   /*tid att vänta är olika för olika kommando*/
+   delay_ms(delay);   /*tid att vänta är olika för olika kommando*/
 }
 
 void ascii_init()
@@ -118,9 +118,9 @@ void ascii_gotoxy(uint8_t x, uint8_t y)
 void ascii_write_char(unsigned char c)
 {
     while((ascii_read_status() & 0x080)== 0x080) ;
-    delay_xms(8);
+    delay_ms(8);
     ascii_write_data(c);
-    delay_xms(43);
+    delay_ms(43);
 }
 
 

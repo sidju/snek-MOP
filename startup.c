@@ -6,6 +6,7 @@
 #include "types.h"
 #include "ascii.h"
 #include "grafikDisp.h"
+#include "keypad.h"
 
 #define NULL ((void *)0)
 
@@ -137,7 +138,7 @@ static void print_score(void) {
 
 static void full_print_score(void) {
     ascii_gotoxy(1, 1);
-    ascii_print("Score: ");
+    ascii_print("Score: "); //behöver skapas
     print_score();
 }
 
@@ -221,14 +222,20 @@ static void play_game(void)
 	init_game();
 	//Execute the game
 	while(game_over == 0) {
-		control_snake();
+		control_snake(); //behöver skapas
 		check_collision(); //creates new apple if necessary
-		write_disp();
-		write_ascii();
+		write_disp(); // behöver skapas
+		write_ascii(); //behöver skapas
 	}
 	free_game();
 }
 	
+	
+static void show_game_over(void)
+{
+	return;
+}
+
 
 void main(void)
 {
@@ -240,9 +247,9 @@ void main(void)
 	ascii_init();
 	while(1)
 	{
-		show_menu();
+		show_menu(); //behöver skapas
 		play_game(); //nollställer score efter att ha initierat srand och game_over i init_game
-		game_over();
+		show_game_over();
 	}
 	
 }

@@ -151,7 +151,7 @@ static void graphic_writeData(uint8_t data, uint8_t controller)
 void graphic_initialize(void)
 {
     graphic_ctrl_bit_set (B_E); 
-    delay_micro(10);
+    delay_us(10);
     graphic_ctrl_bit_clear (B_CS1 | B_CS2 | B_RST | B_E);
     delay_ms(30);
     

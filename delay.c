@@ -21,7 +21,7 @@ void delay_500ns(void)
     delay_250ns();
 }
 
-void delay_micro(uint32_t us)
+void delay_us(uint32_t us)
 {
     while (us--)
     {
@@ -39,9 +39,9 @@ void delay_ms(uint32_t ms)
     /*räknar ner*/
     while (ms--){
     #ifdef SIMULATOR
-        delay_micro(2);
+        delay_us(2);
     #else
-        delay_micro(1000); 
+        delay_us(1000); 
     #endif
     }
 }

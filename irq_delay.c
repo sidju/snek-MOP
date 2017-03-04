@@ -28,7 +28,7 @@ void irq_delay(uint32_t count)
 {
     
 	for(int i=0; i< count; i++) {  /*vänta antal gånger*/
-		start_delay_250ns();
+		start_irq_delay_250ns();
 		while (systick_flag == 0) ; /*så länge inte finns något meddelande, vänta*/
 	}
 }
