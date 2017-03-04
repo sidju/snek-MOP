@@ -36,10 +36,11 @@ typedef struct dot {
 #define INITIAL_LENGTH 4
 
 static SEGMENT *tail;
+static SEGMENT *old_tail;
 static SEGMENT *head;
 static DOT *apple;
 static sint32_t dirx, diry;
-int game_over, score;
+int game_over, score, grow;
 
 static uint32_t next = 1;
 
@@ -58,17 +59,27 @@ static void srand(uint32_t seed)
 /*flytta ett svans-segment så det blir det nya huvudet*/ 
 static void move_snake(void)
 {
-    SEGMENT *move = tail;
-    
-    tail = move->next;           /*ny svans*/
-    move->x = head->x + dirx;    /*ändra koordinaterna så att den blr huvudet*/
+	//visst är följande möjligt för optimering (mindre nyttjande av move buffer) och integrering av tillväxt
+    SEGMENT *move;
+    if (grow != 1)
+	{
+		old_tail = tail;		//så vi vet vilka kordinater att nollställa	
+		tail = tail->next;      /*ny svans*/
+		grow = 0;
+    }
+	move->x = head->x + dirx;	/*ändra koordinaterna så att den blir nya huvudet*/
     move->y = head->y + diry;
     head->next = move;          /*peka på head*/
     head = move;
     head->next = NULL;          /*head pekar på NULL- sista blocket*/   
+
+	//blir det inte en tillväxt på ett segment när denna körs?
+	//om vi kör det som tömmer och frigör
 }
 
 
+
+// om man istället kör på att inte nollskriva gamla tail i move snake utan låter den bestå ger det en 
 
 /*lägg till ett segment*/
 static void grow_snake(void)
@@ -149,6 +160,8 @@ static void init_game(void)
 {
 	int i;
 	
+	game_over = 0;
+	grow = 0;
     tail = malloc(sizeof(SEGMENT));   /*reservera plats på heapen för ett segment*/
     head = tail;
     tail->x = 30;   /*placera ormen i mitten på skärmen*/
@@ -185,7 +198,7 @@ static void check_collision()
 		return;
 	}
 	
-	if (head->y < 1 || head->y > 30)
+	if (head->y < 1 || head->y > 30) 
 	{
 		game_over = 1;
 		return;
@@ -194,7 +207,8 @@ static void check_collision()
 	if ((head->x==apple->x) && (head->y==apple->y))
 	{
 		score++;
-		full_print_score();
+		grow = 1;
+		full_print_score(); //score ändras direkt, new_apple riskerar ta mycket tid
 		new_apple();
 	}
 }
