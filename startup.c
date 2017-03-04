@@ -90,7 +90,8 @@ static void check_collision()
 	SEGMENT* ptr = tail;
 	while (ptr != head)
 	{
-		if ((head->x==ptr->x) && (head->y==ptr->y))
+		//px används som generell figur så att delar av strukturen i gameObj kan användas igen
+		if ((head->x==ptr->x) && (head->y==ptr->y) || (head->x < 0) || (head->y < 0) || (head->x + px->geo->sizex > 128) || (head->y + px->geo->sizey > 128 ))
 		{
 			game_over = 1;
 			return;
