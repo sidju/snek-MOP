@@ -21,10 +21,16 @@ typedef struct segment {
     struct segment *next;
 } SEGMENT;
 
+typedef struct dot {
+	uint8_t x;
+	uint8_t y;
+} DOT;
+
 static SEGMENT *tail;
 static SEGMENT *head;
+static DOT *apple;
 static sint32_t dirx, diry;
-
+int game_over, score;
 
 
 /*flytta ett svans-segment så det blir det nya huvudet*/ 
@@ -54,6 +60,12 @@ static void grow_snake(void)
 }
 
 
+static void new_apple(void)
+{
+	
+}
+
+
 static void init_game(void)
 {
     tail = malloc(sizeof(SEGMENT));   /*reservera plats på heapen för ett segment*/
@@ -73,15 +85,35 @@ static void init_game(void)
 }
 
 
+static void check_collision()
+{
+	SEGMENT* ptr = tail;
+	while (ptr != head)
+	{
+		if ((head->x==ptr->x) && (head->y==ptr->y))
+		{
+			game_over = 1;
+			return;
+		}
+		ptr = ptr->next;
+	}
+	if ((head->x==apple->x) && (head->y==apple->y))
+	{
+		score++;
+		new_apple;
+	}
+}
+
+
 static void play_game(void)
 {
 	init_game(); //hur lämnar vi ut de relevanta pekarna?
 	//Execute the game
 	while(game_over == 0) {
-		control_snake(snake);
-		check_collsion(snake, apple); //creates new apple if necessary
-		write_disp(snake, apple);
-		write_ascii(score);
+		control_snake();
+		check_collsion(); //creates new apple if necessary
+		write_disp();
+		write_ascii();
 	}
 	free_game(snake, apple);
 }
@@ -89,7 +121,6 @@ static void play_game(void)
 
 void main(void)
 {
-	int game_over, score;
 	/* Här: anropa alla init-funktioner */
 	//keypad on upper GPIO D
 	keypad_init();
