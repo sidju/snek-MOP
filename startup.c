@@ -75,16 +75,21 @@ static void init_game(void)
 
 static void play_game(void)
 {
-	init_game();
+	init_game(); //hur lämnar vi ut de relevanta pekarna?
 	//Execute the game
-	while(1) {
-		/* ... */
+	while(game_over == 0) {
+		control_snake(snake);
+		check_collsion(snake, apple); //creates new apple if necessary
+		write_disp(snake, apple);
+		write_ascii(score);
 	}
+	free_game(snake, apple);
 }
 	
 
 void main(void)
 {
+	int game_over, score;
 	/* Här: anropa alla init-funktioner */
 	//keypad on upper GPIO D
 	keypad_init();
@@ -93,7 +98,7 @@ void main(void)
 	ascii_init();
 	while(1)
 	{
-		show_menu;
+		show_menu; //innefattar "game_over = 0;" samt "score = 0;"
 		play_game;
 		game_over;
 	}
