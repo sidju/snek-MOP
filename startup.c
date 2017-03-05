@@ -7,6 +7,7 @@
 #include "ascii.h"
 #include "grafikDisp.h"
 #include "keypad.h"
+#include "libMD407.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -159,6 +160,7 @@ static void main_menu(void)
 	static int random_seed = 0;
 	
 	ascii_gotoxy(1,1);
+<<<<<<< HEAD
 	ascii_print("Press A to start");
 	
 	while (Keyb() != 0x0a) {
@@ -166,6 +168,11 @@ static void main_menu(void)
 	}
 	
 	srand(random_seed); /* väldigt slumpmässigt tal! */
+=======
+	ascii_print("Press 2, 4, 6 or 8 to start");
+	while (( Keyb() != (2||4||6||8) ))
+	{}
+>>>>>>> 9a989604d7d4e7678e750d6d47737dbe68cd173e
 }
 
 static void init_game(void)

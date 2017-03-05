@@ -1,4 +1,5 @@
 Debug/**
-*.mk
-*.s
-*.project
+snek-MOP.mk
+snek-MOP.project
+snek-MOP.txt
+test.s

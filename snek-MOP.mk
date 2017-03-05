@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=sid
-Date                   :=04/03/2017
+Date                   :=05/03/2017
 CodeLitePath           :=C:/cseapp/CodeLite
 LinkerName             :=$(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-g++.exe
 SharedObjectLinkerName :=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi-g++.exe -shared -fPIC
@@ -62,7 +62,7 @@ AS       := $(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\cseapp\CodeLite
-Objects0=$(IntermediateDirectory)/grafikDisp.c$(ObjectSuffix) $(IntermediateDirectory)/keypad.c$(ObjectSuffix) $(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IntermediateDirectory)/irq_delay.c$(ObjectSuffix) $(IntermediateDirectory)/delay.c$(ObjectSuffix) $(IntermediateDirectory)/ascii.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/grafikDisp.c$(ObjectSuffix) $(IntermediateDirectory)/keypad.c$(ObjectSuffix) $(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IntermediateDirectory)/irq_delay.c$(ObjectSuffix) $(IntermediateDirectory)/delay.c$(ObjectSuffix) $(IntermediateDirectory)/ascii.c$(ObjectSuffix) $(IntermediateDirectory)/libMD407.c$(ObjectSuffix) 
 
 
 
@@ -145,6 +145,14 @@ $(IntermediateDirectory)/ascii.c$(DependSuffix): ascii.c
 
 $(IntermediateDirectory)/ascii.c$(PreprocessSuffix): ascii.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/ascii.c$(PreprocessSuffix)ascii.c
+
+$(IntermediateDirectory)/libMD407.c$(ObjectSuffix): libMD407.c $(IntermediateDirectory)/libMD407.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "C:/Users/sid/Documents/snek/snek-MOP/libMD407.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/libMD407.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/libMD407.c$(DependSuffix): libMD407.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/libMD407.c$(ObjectSuffix) -MF$(IntermediateDirectory)/libMD407.c$(DependSuffix) -MM libMD407.c
+
+$(IntermediateDirectory)/libMD407.c$(PreprocessSuffix): libMD407.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/libMD407.c$(PreprocessSuffix)libMD407.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

@@ -143,4 +143,34 @@ monitor restart</PostConnectCommands>
       </Completion>
     </Configuration>
   </Settings>
+<<<<<<< HEAD
+=======
+  <VirtualDirectory Name="src">
+    <File Name="bits.h"/>
+    <File Name="gameObj.c" ExcludeProjConfig="Debug"/>
+    <File Name="gameObj.h" ExcludeProjConfig="Debug"/>
+    <File Name="gpio.h"/>
+    <File Name="grafikDisp.c"/>
+    <File Name="keypad.c"/>
+    <File Name="keypad.h"/>
+    <File Name="startup.c"/>
+    <File Name="timer.h"/>
+    <File Name="types.h"/>
+    <File Name="irq.h"/>
+    <File Name="irq_delay.c"/>
+    <File Name="irq_delay.h"/>
+    <File Name="delay.c"/>
+    <File Name="delay.h"/>
+    <File Name="grafikDisp.h"/>
+    <File Name="ascii.c"/>
+    <File Name="ascii.h"/>
+    <File Name="libMD407.c"/>
+    <File Name="libMD407.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="resources">
+    <File Name="md407-ram.x"/>
+  </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
+>>>>>>> 9a989604d7d4e7678e750d6d47737dbe68cd173e
 </CodeLite_Project>
