@@ -8,7 +8,9 @@
 #include "grafikDisp.h"
 #include "keypad.h"
 
+#ifndef NULL
 #define NULL ((void *)0)
+#endif
 
 void startup(void) __attribute__((naked)) __attribute__((section (".start_section")) );
 
@@ -17,28 +19,28 @@ void startup ( void )
 asm volatile(
 	" LDR R0,=0x2001C000\n"		/* set stack */
 	" MOV SP,R0\n"
+	" BL crt_init\n"			/* init c runtime library */
 	" BL main\n"				/* call main */
 	".L1: B .L1\n"				/* never return */
 	) ;
 }
-
-/*länkad lista*/
-typedef struct segment {
-    uint8_t x;
-    uint8_t y;
-    struct segment *next;
-} SEGMENT;
 
 typedef struct dot {
 	uint8_t x;
 	uint8_t y;
 } DOT;
 
+/*länkad lista*/
+typedef struct segment {
+    DOT pos;
+    struct segment *next;
+} SEGMENT;
+
 #define INITIAL_LENGTH 4
 
-static SEGMENT *tail;
-static SEGMENT *head;
-static DOT *apple;
+static SEGMENT *tail = NULL;
+static SEGMENT *head = NULL;
+static DOT *apple = NULL;
 static sint32_t dirx, diry;
 int game_over, score;
 
@@ -62,8 +64,8 @@ static void move_snake(void)
     SEGMENT *move = tail;
     
     tail = move->next;           /*ny svans*/
-    move->x = head->x + dirx;    /*ändra koordinaterna så att den blr huvudet*/
-    move->y = head->y + diry;
+    move->pos.x = head->pos.x + dirx;    /*ändra koordinaterna så att den blr huvudet*/
+    move->pos.y = head->pos.y + diry;
     head->next = move;          /*peka på head*/
     head = move;
     head->next = NULL;          /*head pekar på NULL- sista blocket*/   
@@ -79,9 +81,10 @@ static void grow_snake(void)
     new_tail->next = tail;
 	
 	// om man flyttar in koden efter detta till en if loop i move snake kan man veta var svansen är på väg
+	// men det är onödigt och tillför inte något till spelet
 	
-    new_tail ->x = tail->x;    /*samma position som tail, pgv svårt att veta var svansen är på väg*/
-    new_tail ->y = tail->y;
+    new_tail->pos.x = tail->pos.x;    /*samma position som tail, pgv svårt att veta var svansen är på väg*/
+    new_tail->pos.y = tail->pos.y;
     tail = new_tail;     
 }
 
@@ -89,16 +92,22 @@ static void grow_snake(void)
 static void new_apple(void)
 {
 	int good = 0;
+	
+	if (apple == NULL)
+		apple = malloc(sizeof(DOT));
+	
 	while(good == 0) 
 	{
 		int no_collide = 1;
-		apple->x= (rand()%62);
-		apple->y= (rand()%30);
+		/* modulo med icke två potens funkar inte! */
+		
+		apple->x= (rand()%32) + 16;
+		apple->y= (rand()%16) + 8;
 
 		SEGMENT* ptr = tail;
-		while(ptr != head) 
+		while(ptr != NULL) /* måste kolla huvudet också */
 		{
-			if((apple->x == ptr->x) && (apple->y == ptr->y)) 
+			if((apple->x == ptr->pos.x) && (apple->y == ptr->pos.y)) 
 			{
 				no_collide = 0;
 				break;
@@ -118,7 +127,6 @@ static void print_score(void) {
     int local_score = score;
     
 	/* division med 10 går inte att kompilera */
-	//hexadecimal poängräkning kanske?
 	
     if (local_score > 99)
         local_score = 99;
@@ -141,16 +149,22 @@ static void print_score(void) {
 
 static void full_print_score(void) {
     ascii_gotoxy(1, 1);
-    ascii_print("Score: "); //behöver skapas
+    ascii_print("Score: ");
     print_score();
 }
 
 static void main_menu(void)
 {
+	static int random_seed = 0;
+	
 	ascii_gotoxy(1,1);
-	acsii_print("Press 2, 4, 6 or 8 to start");
-	while (( Keyb() != (2||4||6||8) ))
-	{}
+	ascii_print("Press A to start");
+	
+	while (Keyb() != 0x0a) {
+		random_seed++;
+	}
+	
+	srand(random_seed); /* väldigt slumpmässigt tal! */
 }
 
 static void init_game(void)
@@ -159,14 +173,14 @@ static void init_game(void)
 	
     tail = malloc(sizeof(SEGMENT));   /*reservera plats på heapen för ett segment*/
     head = tail;
-    tail->x = 30;   /*placera ormen i mitten på skärmen*/
-    tail->y = 15;
+    tail->pos.x = 30;   /*placera ormen i mitten på skärmen*/
+    tail->pos.y = 15;
     head->next = NULL;
     
     for (i = 1; i < INITIAL_LENGTH; i++) {
         grow_snake(); 
     }
-	srand(score); //rand initieras med förra spelets slut score. Kan ordnas med timer istället
+
 	score = 0;
 	new_apple();
 	
@@ -177,10 +191,10 @@ static void init_game(void)
 static void control_snake(void)
 {
 	switch(Keyb()){
-		case 2: diry = -2; dirx = 0; break;
-		case 8: diry = 2; dirx = 0; break;
-		case 4: diry = 0; dirx = -2; break;
-		case 6: diry = 0; dirx = 2; break;
+		case 2: diry = -1; dirx = 0; break;
+		case 8: diry = 1; dirx = 0; break;
+		case 4: diry = 0; dirx = -1; break;
+		case 6: diry = 0; dirx = 1; break;
 	}
 	
 }
@@ -191,7 +205,7 @@ static void check_collision(void)
 	SEGMENT* ptr = tail;
 	while (ptr != head)
 	{
-		if ((head->x==ptr->x) && (head->y==ptr->y))
+		if ((head->pos.x==ptr->pos.x) && (head->pos.y==ptr->pos.y))
 		{
 			game_over = 1;
 			return;
@@ -200,19 +214,19 @@ static void check_collision(void)
 	}
 	
 	/* varje SEGMENT = 2x2 pixels */
-	if (head->x < 1 || head->x > 62)
+	if (head->pos.x < 1 || head->pos.x > 62)
 	{
 		game_over = 1;
 		return;
 	}
 	
-	if (head->y < 1 || head->y > 30)
+	if (head->pos.y < 1 || head->pos.y > 30)
 	{
 		game_over = 1;
 		return;
 	}
 	
-	if ((head->x==apple->x) && (head->y==apple->y))
+	if ((head->pos.x==apple->x) && (head->pos.y==apple->y))
 	{
 		score++;
 		full_print_score();
@@ -235,19 +249,22 @@ static void free_game(void)
     tail = NULL;
 
 	free(apple);
+	apple = NULL;
 }
 
-
+static void draw_snake(void)
+{
+	/* behöver skapas */
+}
 
 static void play_game(void)
 {
 	init_game();
 	//Execute the game
 	while(game_over == 0) {
-		control_snake(); //behöver skapas
+		control_snake();
 		check_collision(); //creates new apple if necessary
-		write_disp(); // behöver skapas
-		write_ascii(); //behöver skapas
+		draw_snake();
 	}
 	free_game();
 }

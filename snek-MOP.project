@@ -19,6 +19,31 @@
   </Plugins>
   <Description/>
   <Dependencies/>
+  <VirtualDirectory Name="src">
+    <File Name="bits.h"/>
+    <File Name="gameObj.c" ExcludeProjConfig="Debug"/>
+    <File Name="gameObj.h" ExcludeProjConfig="Debug"/>
+    <File Name="gpio.h"/>
+    <File Name="grafikDisp.c"/>
+    <File Name="keypad.c"/>
+    <File Name="keypad.h"/>
+    <File Name="startup.c"/>
+    <File Name="timer.h"/>
+    <File Name="types.h"/>
+    <File Name="irq.h"/>
+    <File Name="irq_delay.c"/>
+    <File Name="irq_delay.h"/>
+    <File Name="delay.c"/>
+    <File Name="delay.h"/>
+    <File Name="grafikDisp.h"/>
+    <File Name="ascii.c"/>
+    <File Name="ascii.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="resources">
+    <File Name="md407-ram.x"/>
+  </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -36,8 +61,9 @@
       <Linker Options="-nostartfiles;-T$(ProjectPath)/md407-ram.x" Required="yes">
         <LibraryPath Value="$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi/lib/armv6-m"/>
         <LibraryPath Value="$(CodeLiteDir)/tools/gcc-arm/lib/gcc/arm-none-eabi/5.4.1/armv6-m"/>
-        <Library Value="gcc"/>
         <Library Value="c_nano"/>
+        <Library Value="MD407"/>
+        <Library Value="_labb"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName).elf" IntermediateDirectory="./Debug" Command="$(ProjectPath)/$(IntermediateDirectory)/$(ProjectName).elf" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
@@ -117,29 +143,4 @@ monitor restart</PostConnectCommands>
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="src">
-    <File Name="bits.h"/>
-    <File Name="gameObj.c" ExcludeProjConfig="Debug"/>
-    <File Name="gameObj.h" ExcludeProjConfig="Debug"/>
-    <File Name="gpio.h"/>
-    <File Name="grafikDisp.c"/>
-    <File Name="keypad.c"/>
-    <File Name="keypad.h"/>
-    <File Name="startup.c"/>
-    <File Name="timer.h"/>
-    <File Name="types.h"/>
-    <File Name="irq.h"/>
-    <File Name="irq_delay.c"/>
-    <File Name="irq_delay.h"/>
-    <File Name="delay.c"/>
-    <File Name="delay.h"/>
-    <File Name="grafikDisp.h"/>
-    <File Name="ascii.c"/>
-    <File Name="ascii.h"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="resources">
-    <File Name="md407-ram.x"/>
-  </VirtualDirectory>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
 </CodeLite_Project>
