@@ -39,9 +39,6 @@
     <File Name="ascii.c"/>
     <File Name="ascii.h"/>
   </VirtualDirectory>
-  <VirtualDirectory Name="resources">
-    <File Name="md407-ram.x"/>
-  </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
   <Settings Type="Executable">
@@ -143,8 +140,6 @@ monitor restart</PostConnectCommands>
       </Completion>
     </Configuration>
   </Settings>
-<<<<<<< HEAD
-=======
   <VirtualDirectory Name="src">
     <File Name="bits.h"/>
     <File Name="gameObj.c" ExcludeProjConfig="Debug"/>
@@ -172,5 +167,4 @@ monitor restart</PostConnectCommands>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
->>>>>>> 9a989604d7d4e7678e750d6d47737dbe68cd173e
 </CodeLite_Project>

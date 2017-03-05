@@ -10,7 +10,6 @@ void init_app(void)
     GPIO_E.moder = 0x55555555;   /*port E utport*/ 
     GPIO_E.otyper = 0x00000000;    /*push pull*/
     GPIO_E.ospeedr = 0x55555555;   /*medium speed, om problem sätt till låg*/
-    /*GPIO_E.pupdr = 0x00000000;    /* push / pull*/ 
     GPIO_E.pupdr = 0x55550000;    /* pullup inputs*/
 }
 

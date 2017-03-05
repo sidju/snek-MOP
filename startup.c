@@ -3,6 +3,7 @@
  *
  */
  
+#include <stdlib.h>
 #include "types.h"
 #include "ascii.h"
 #include "grafikDisp.h"
@@ -47,14 +48,14 @@ int game_over, score;
 
 static uint32_t next = 1;
 
-static uint32_t rand(void)
+static uint32_t snake_rand(void)
 {
     next = next * 1103515245 + 12345;
     return (uint32_t)(next/65536) % 32768;	
 }
 
 /*starta slupmgenerator*/
-static void srand(uint32_t seed)
+static void snake_srand(uint32_t seed)
 {
     next = seed;
 }
@@ -80,10 +81,6 @@ static void grow_snake(void)
     SEGMENT *new_tail;  
     new_tail=malloc(sizeof(SEGMENT)); 
     new_tail->next = tail;
-	
-	// om man flyttar in koden efter detta till en if loop i move snake kan man veta var svansen är på väg
-	// men det är onödigt och tillför inte något till spelet
-	
     new_tail->pos.x = tail->pos.x;    /*samma position som tail, pgv svårt att veta var svansen är på väg*/
     new_tail->pos.y = tail->pos.y;
     tail = new_tail;     
@@ -102,8 +99,8 @@ static void new_apple(void)
 		int no_collide = 1;
 		/* modulo med icke två potens funkar inte! */
 		
-		apple->x= (rand()%32) + 16;
-		apple->y= (rand()%16) + 8;
+		apple->x= (snake_rand()%32) + 16;
+		apple->y= (snake_rand()%16) + 8;
 
 		SEGMENT* ptr = tail;
 		while(ptr != NULL) /* måste kolla huvudet också */
@@ -166,7 +163,7 @@ static void main_menu(void)
 		random_seed++;
 	}
 	
-	srand(random_seed); /* väldigt slumpmässigt tal! */
+	snake_srand(random_seed); /* väldigt slumpmässigt tal! */
 }
 
 static void init_game(void)
@@ -265,6 +262,7 @@ static void play_game(void)
 	//Execute the game
 	while(game_over == 0) {
 		control_snake();
+		move_snake();
 		check_collision(); //creates new apple if necessary
 		draw_snake();
 	}
