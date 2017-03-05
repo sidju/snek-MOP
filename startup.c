@@ -147,6 +147,9 @@ static void full_print_score(void) {
 
 static void main_menu(void)
 {
+	acsii_print("Press 2, 4, 6 or 8 to start");
+	while (( keyb() != (2||4||6||8) ))
+	{}
 }
 
 static void init_game(void)
@@ -234,11 +237,6 @@ static void free_game(void)
 }
 
 
-static void show_menu(void)
-{
-	
-}
-
 
 static void play_game(void)
 {
@@ -271,7 +269,7 @@ void main(void)
 	ascii_init();
 	while(1)
 	{
-		show_menu(); //behöver skapas
+		main_menu(); //behöver skapas
 		play_game(); //nollställer score efter att ha initierat srand och game_over i init_game
 		show_game_over();
 	}
