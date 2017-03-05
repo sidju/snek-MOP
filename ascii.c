@@ -123,6 +123,32 @@ void ascii_write_char(unsigned char c)
     delay_ms(43);
 }
 
+void ascii_print(char* string)
+{
+	int end = 0;
+	for(int i = 0; i < 28; i++)
+	{
+		if( ! (*(string + i)) )
+		{
+			end = 1;
+			break;
+		}
+		ascii_write_char(*(string + i));
+	}
+	if( !(end) )
+	{
+		ascii_gotoxy(1,2);
+		for(int i = 28; i < 56; i++)
+		{
+			if( ! (*(string + i)) )
+			{
+				break;
+			}
+			ascii_write_char(*(string + i));
+		}
+	}
+	
+}
 
 
 

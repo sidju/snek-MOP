@@ -147,8 +147,9 @@ static void full_print_score(void) {
 
 static void main_menu(void)
 {
+	ascii_gotoxy(1,1);
 	acsii_print("Press 2, 4, 6 or 8 to start");
-	while (( keyb() != (2||4||6||8) ))
+	while (( Keyb() != (2||4||6||8) ))
 	{}
 }
 
