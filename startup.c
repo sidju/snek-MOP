@@ -6,9 +6,8 @@
 #include <stdlib.h>
 #include "types.h"
 #include "ascii.h"
-#include "grafikDisp.h"
+#include "graphics.h"
 #include "keypad.h"
-#include "libMD407.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -58,6 +57,14 @@ static uint32_t snake_rand(void)
 static void snake_srand(uint32_t seed)
 {
     next = seed;
+}
+
+static void draw_dot(DOT *dot, int set)
+{
+	pixel(dot->x*2, dot->y*2, set);
+	pixel(dot->x*2+1, dot->y*2, set);
+	pixel(dot->x*2, dot->y*2+1, set);
+	pixel(dot->x*2+1, dot->y*2+1, set);
 }
 
 /*flytta ett svans-segment så det blir det nya huvudet*/ 
@@ -110,13 +117,15 @@ static void new_apple(void)
 				no_collide = 0;
 				break;
 			}
-		ptr = ptr->next;
+			ptr = ptr->next;
 		}
 		if(no_collide)
 		{
 			good = 1;
 		}
 	}
+	
+	draw_dot(apple, 1);
 }
 
 
@@ -159,7 +168,7 @@ static void main_menu(void)
 	ascii_gotoxy(1,1);
 	ascii_print("Press A to start");
 	
-	while (Keyb() != 0x0a) {
+	while (keyb() != 0x0a) {
 		random_seed++;
 	}
 	
@@ -189,7 +198,7 @@ static void init_game(void)
 
 static void control_snake(void)
 {
-	switch(Keyb()){
+	switch(keyb()){
 		case 2: diry = -1; dirx = 0; break;
 		case 8: diry = 1; dirx = 0; break;
 		case 4: diry = 0; dirx = -1; break;
@@ -253,7 +262,8 @@ static void free_game(void)
 
 static void draw_snake(void)
 {
-	/* behöver skapas */
+	draw_dot(&head->pos, 1);
+	draw_dot(&tail->pos, 0);
 }
 
 static void play_game(void)
@@ -283,7 +293,7 @@ void main(void)
 	//keypad on upper GPIO D
 	keypad_init();
 	//Display on entire GPIO E
-	init_app(); //init for graphics display. (Lite illa valt namn)
+	graphic_init();
 	ascii_init();
 	while(1)
 	{

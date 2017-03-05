@@ -12,380 +12,508 @@
   12              		.eabi_attribute 18, 4
   13              		.thumb
   14              		.syntax unified
-  15              		.file	"keypad.c"
+  15              		.file	"libMD407.c"
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.align	2
-  20              		.global	keypad_init
-  21              		.code	16
-  22              		.thumb_func
-  24              	keypad_init:
-  25              	.LFB0:
-  26              		.file 1 "/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c"
-   1:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** #include "keypad.h"
-   2:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** 
-   3:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** /*vi konfigurerar port D genom att skriva 0x55005555 till moder.
-   4:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****  * Minst signifikanta 8 bitarna är utpinnar (sista 5555) kopplade till en display.
-   5:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****  * Mest signifikanta bitar är 4 in- och 4 utpinnar kopplade till ett tangentbord (5500)*/
-   6:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****      void keypad_init(void)
-   7:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** {
-  27              		.loc 1 7 0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 16
-  30              		@ frame_needed = 1, uses_anonymous_args = 0
-  31 0000 80B5     		push	{r7, lr}
-  32              		.cfi_def_cfa_offset 8
-  33              		.cfi_offset 7, -8
-  34              		.cfi_offset 14, -4
-  35 0002 84B0     		sub	sp, sp, #16
-  36              		.cfi_def_cfa_offset 24
-  37 0004 00AF     		add	r7, sp, #0
-  38              		.cfi_def_cfa_register 7
-   8:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     const uint32_t Kbd_Disp_pinmode = 0x55000000; 
-  39              		.loc 1 8 0
-  40 0006 AA23     		movs	r3, #170
-  41 0008 DB05     		lsls	r3, r3, #23
-  42 000a FB60     		str	r3, [r7, #12]
-   9:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     const uint16_t Kbd_Disp_otype = 0x0000;       /*alla pinnar ställs som pushpull*/
-  43              		.loc 1 9 0
-  44 000c 0A23     		movs	r3, #10
-  45 000e FB18     		adds	r3, r7, r3
-  46 0010 0022     		movs	r2, #0
-  47 0012 1A80     		strh	r2, [r3]
-  10:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     const uint32_t Kbd_Disp_pupd = 0x00aa0000;    /*inpinnar från kolumnerna pulluppulldow*/
-  48              		.loc 1 10 0
-  49 0014 AA23     		movs	r3, #170
-  50 0016 1B04     		lsls	r3, r3, #16
-  51 0018 7B60     		str	r3, [r7, #4]
-  11:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** 
-  12:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     GPIO_D.moder = Kbd_Disp_pinmode;     /*skrivning*/
-  52              		.loc 1 12 0
-  53 001a 074B     		ldr	r3, .L2
-  54 001c FA68     		ldr	r2, [r7, #12]
-  55 001e 1A60     		str	r2, [r3]
-  13:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     GPIO_D.otyper = Kbd_Disp_otype;
-  56              		.loc 1 13 0
-  57 0020 054A     		ldr	r2, .L2
-  58 0022 0A23     		movs	r3, #10
-  59 0024 FB18     		adds	r3, r7, r3
-  60 0026 1B88     		ldrh	r3, [r3]
-  61 0028 9380     		strh	r3, [r2, #4]
-  14:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     GPIO_D.pupdr = Kbd_Disp_pupd;
-  62              		.loc 1 14 0
-  63 002a 034B     		ldr	r3, .L2
-  64 002c 7A68     		ldr	r2, [r7, #4]
-  65 002e DA60     		str	r2, [r3, #12]
-  15:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** 
-  16:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** }
-  66              		.loc 1 16 0
-  67 0030 C046     		nop
-  68 0032 BD46     		mov	sp, r7
-  69 0034 04B0     		add	sp, sp, #16
-  70              		@ sp needed
-  71 0036 80BD     		pop	{r7, pc}
-  72              	.L3:
-  73              		.align	2
-  74              	.L2:
-  75 0038 000C0240 		.word	1073875968
-  76              		.cfi_endproc
-  77              	.LFE0:
-  79              		.align	2
-  80              		.global	kbd_activate
-  81              		.code	16
-  82              		.thumb_func
-  84              	kbd_activate:
-  85              	.LFB1:
-  17:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** 
-  18:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** /*den aktiverar en rad, sätt spänning på "kablarna". Row är ett värde som kan vara 1,2,3,4 ell
-  19:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** void kbd_activate(uint32_t row)
-  20:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** {
-  86              		.loc 1 20 0
-  87              		.cfi_startproc
-  88              		@ args = 0, pretend = 0, frame = 16
-  89              		@ frame_needed = 1, uses_anonymous_args = 0
-  90 003c 80B5     		push	{r7, lr}
-  91              		.cfi_def_cfa_offset 8
-  92              		.cfi_offset 7, -8
-  93              		.cfi_offset 14, -4
-  94 003e 84B0     		sub	sp, sp, #16
-  95              		.cfi_def_cfa_offset 24
-  96 0040 00AF     		add	r7, sp, #0
-  97              		.cfi_def_cfa_register 7
-  98 0042 7860     		str	r0, [r7, #4]
-  21:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     if (row < 1 || row > 4) return;
-  99              		.loc 1 21 0
- 100 0044 7B68     		ldr	r3, [r7, #4]
- 101 0046 002B     		cmp	r3, #0
- 102 0048 1AD0     		beq	.L8
- 103              		.loc 1 21 0 is_stmt 0 discriminator 1
- 104 004a 7B68     		ldr	r3, [r7, #4]
- 105 004c 042B     		cmp	r3, #4
- 106 004e 17D8     		bhi	.L8
-  22:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     
-  23:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     uint32_t pattern = (1 << (3 + row));    /* row = 1 : ettställ bit 4 */
- 107              		.loc 1 23 0 is_stmt 1
- 108 0050 7B68     		ldr	r3, [r7, #4]
- 109 0052 0333     		adds	r3, r3, #3
- 110 0054 0122     		movs	r2, #1
- 111 0056 9A40     		lsls	r2, r2, r3
- 112 0058 1300     		movs	r3, r2
- 113 005a FB60     		str	r3, [r7, #12]
-  24:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     
-  25:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     GPIO_D.odr_high &= 0x0f;        /* Skriver ingenting till IN-pinnarna! */
- 114              		.loc 1 25 0
- 115 005c 0A4A     		ldr	r2, .L9
- 116 005e 0A4B     		ldr	r3, .L9
- 117 0060 5B7D     		ldrb	r3, [r3, #21]
- 118 0062 DBB2     		uxtb	r3, r3
- 119 0064 0F21     		movs	r1, #15
- 120 0066 0B40     		ands	r3, r1
- 121 0068 DBB2     		uxtb	r3, r3
- 122 006a 5375     		strb	r3, [r2, #21]
-  26:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     GPIO_D.odr_high |= pattern;
- 123              		.loc 1 26 0
- 124 006c 0649     		ldr	r1, .L9
- 125 006e 064B     		ldr	r3, .L9
- 126 0070 5B7D     		ldrb	r3, [r3, #21]
- 127 0072 DAB2     		uxtb	r2, r3
- 128 0074 FB68     		ldr	r3, [r7, #12]
- 129 0076 DBB2     		uxtb	r3, r3
- 130 0078 1343     		orrs	r3, r2
- 131 007a DBB2     		uxtb	r3, r3
- 132 007c 4B75     		strb	r3, [r1, #21]
- 133 007e 00E0     		b	.L4
- 134              	.L8:
-  21:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     
- 135              		.loc 1 21 0
- 136 0080 C046     		nop
- 137              	.L4:
-  27:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** }
- 138              		.loc 1 27 0
- 139 0082 BD46     		mov	sp, r7
- 140 0084 04B0     		add	sp, sp, #16
- 141              		@ sp needed
- 142 0086 80BD     		pop	{r7, pc}
- 143              	.L10:
- 144              		.align	2
- 145              	.L9:
- 146 0088 000C0240 		.word	1073875968
- 147              		.cfi_endproc
- 148              	.LFE1:
- 150              		.align	2
- 151              		.global	kbd_col
- 152              		.code	16
- 153              		.thumb_func
- 155              	kbd_col:
- 156              	.LFB2:
-  28:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** 
-  29:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** /*läsa av om någon knapp på den aktiva raden är nertrykt */
-  30:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** int kbd_col (void)
-  31:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** {
- 157              		.loc 1 31 0
- 158              		.cfi_startproc
- 159              		@ args = 0, pretend = 0, frame = 8
- 160              		@ frame_needed = 1, uses_anonymous_args = 0
- 161 008c 80B5     		push	{r7, lr}
- 162              		.cfi_def_cfa_offset 8
- 163              		.cfi_offset 7, -8
- 164              		.cfi_offset 14, -4
- 165 008e 82B0     		sub	sp, sp, #8
- 166              		.cfi_def_cfa_offset 16
- 167 0090 00AF     		add	r7, sp, #0
- 168              		.cfi_def_cfa_register 7
-  32:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     uint8_t c = GPIO_D.idr_high; 
- 169              		.loc 1 32 0
- 170 0092 124A     		ldr	r2, .L17
- 171 0094 FB1D     		adds	r3, r7, #7
- 172 0096 527C     		ldrb	r2, [r2, #17]
- 173 0098 1A70     		strb	r2, [r3]
-  33:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     if (c & 0x08) return 4;
- 174              		.loc 1 33 0
- 175 009a FB1D     		adds	r3, r7, #7
- 176 009c 1B78     		ldrb	r3, [r3]
- 177 009e 0822     		movs	r2, #8
- 178 00a0 1340     		ands	r3, r2
- 179 00a2 01D0     		beq	.L12
- 180              		.loc 1 33 0 is_stmt 0 discriminator 1
- 181 00a4 0423     		movs	r3, #4
- 182 00a6 15E0     		b	.L13
- 183              	.L12:
-  34:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     if (c & 0x04) return 3;
- 184              		.loc 1 34 0 is_stmt 1
- 185 00a8 FB1D     		adds	r3, r7, #7
- 186 00aa 1B78     		ldrb	r3, [r3]
- 187 00ac 0422     		movs	r2, #4
- 188 00ae 1340     		ands	r3, r2
- 189 00b0 01D0     		beq	.L14
- 190              		.loc 1 34 0 is_stmt 0 discriminator 1
- 191 00b2 0323     		movs	r3, #3
- 192 00b4 0EE0     		b	.L13
- 193              	.L14:
-  35:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     if (c & 0x02) return 2; 
- 194              		.loc 1 35 0 is_stmt 1
- 195 00b6 FB1D     		adds	r3, r7, #7
- 196 00b8 1B78     		ldrb	r3, [r3]
- 197 00ba 0222     		movs	r2, #2
- 198 00bc 1340     		ands	r3, r2
- 199 00be 01D0     		beq	.L15
- 200              		.loc 1 35 0 is_stmt 0 discriminator 1
- 201 00c0 0223     		movs	r3, #2
- 202 00c2 07E0     		b	.L13
- 203              	.L15:
-  36:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     if (c & 0x01) return 1; 
- 204              		.loc 1 36 0 is_stmt 1
- 205 00c4 FB1D     		adds	r3, r7, #7
- 206 00c6 1B78     		ldrb	r3, [r3]
- 207 00c8 0122     		movs	r2, #1
- 208 00ca 1340     		ands	r3, r2
- 209 00cc 01D0     		beq	.L16
- 210              		.loc 1 36 0 is_stmt 0 discriminator 1
- 211 00ce 0123     		movs	r3, #1
- 212 00d0 00E0     		b	.L13
- 213              	.L16:
-  37:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     return 0; 
- 214              		.loc 1 37 0 is_stmt 1
- 215 00d2 0023     		movs	r3, #0
- 216              	.L13:
-  38:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** }
- 217              		.loc 1 38 0
- 218 00d4 1800     		movs	r0, r3
- 219 00d6 BD46     		mov	sp, r7
- 220 00d8 02B0     		add	sp, sp, #8
- 221              		@ sp needed
- 222 00da 80BD     		pop	{r7, pc}
- 223              	.L18:
- 224              		.align	2
- 225              	.L17:
- 226 00dc 000C0240 		.word	1073875968
- 227              		.cfi_endproc
- 228              	.LFE2:
- 230              		.section	.rodata
- 231              		.align	2
- 234              	Key:
- 235 0000 01       		.byte	1
- 236 0001 02       		.byte	2
- 237 0002 03       		.byte	3
- 238 0003 0A       		.byte	10
- 239 0004 04       		.byte	4
- 240 0005 05       		.byte	5
- 241 0006 06       		.byte	6
- 242 0007 0B       		.byte	11
- 243 0008 07       		.byte	7
- 244 0009 08       		.byte	8
- 245 000a 09       		.byte	9
- 246 000b 0C       		.byte	12
- 247 000c 0E       		.byte	14
- 248 000d 00       		.byte	0
- 249 000e 0F       		.byte	15
- 250 000f 0D       		.byte	13
- 251              		.text
- 252              		.align	2
- 253              		.global	Keyb
- 254              		.code	16
- 255              		.thumb_func
- 257              	Keyb:
- 258              	.LFB3:
-  39:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** 
-  40:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** /*array med tangentkoder (1,2,3,A,4,5,6,B...) som i figuren*/
-  41:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** static const uint8_t Key[]={ 1,2,3,0xa,4,5,6,0xb,7,8,9,0xc,0xe,0,0xf,0xd };
-  42:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** 
-  43:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** /*huvudfunktionen för tangentbord*/
-  44:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** uint8_t Keyb (void)
-  45:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** {
- 259              		.loc 1 45 0
- 260              		.cfi_startproc
- 261              		@ args = 0, pretend = 0, frame = 8
- 262              		@ frame_needed = 1, uses_anonymous_args = 0
- 263 00e0 80B5     		push	{r7, lr}
- 264              		.cfi_def_cfa_offset 8
- 265              		.cfi_offset 7, -8
- 266              		.cfi_offset 14, -4
- 267 00e2 82B0     		sub	sp, sp, #8
- 268              		.cfi_def_cfa_offset 16
- 269 00e4 00AF     		add	r7, sp, #0
- 270              		.cfi_def_cfa_register 7
-  46:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     uint32_t row, col; 
-  47:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     
-  48:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     /*loopa igenom raderna. Vi börjar med rad 1*/
-  49:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     for(row=1; row<= 4; row ++)
- 271              		.loc 1 49 0
- 272 00e6 0123     		movs	r3, #1
- 273 00e8 7B60     		str	r3, [r7, #4]
- 274 00ea 1EE0     		b	.L20
- 275              	.L23:
-  50:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     {
-  51:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         /*Vi skickar in rad i funktionen som ska aktivera den rad*/
-  52:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         kbd_activate(row); 
- 276              		.loc 1 52 0
- 277 00ec 7B68     		ldr	r3, [r7, #4]
- 278 00ee 1800     		movs	r0, r3
- 279 00f0 FFF7FEFF 		bl	kbd_activate
-  53:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         col = kbd_col();
- 280              		.loc 1 53 0
- 281 00f4 FFF7FEFF 		bl	kbd_col
- 282 00f8 0300     		movs	r3, r0
- 283 00fa 3B60     		str	r3, [r7]
-  54:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         
-  55:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         /*kolla kolumn*/
-  56:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         if (col !=0)
- 284              		.loc 1 56 0
- 285 00fc 3B68     		ldr	r3, [r7]
- 286 00fe 002B     		cmp	r3, #0
- 287 0100 0DD0     		beq	.L21
-  57:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         {
-  58:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****             kbd_activate(0);
- 288              		.loc 1 58 0
- 289 0102 0020     		movs	r0, #0
- 290 0104 FFF7FEFF 		bl	kbd_activate
-  59:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****             return Key [4*(row-1)+(col-1)];   /*beräkna index för att välja rätt knapp*/
- 291              		.loc 1 59 0
- 292 0108 7B68     		ldr	r3, [r7, #4]
- 293 010a 0C4A     		ldr	r2, .L24
- 294 010c 9446     		mov	ip, r2
- 295 010e 6344     		add	r3, r3, ip
- 296 0110 9A00     		lsls	r2, r3, #2
- 297 0112 3B68     		ldr	r3, [r7]
- 298 0114 D318     		adds	r3, r2, r3
- 299 0116 013B     		subs	r3, r3, #1
- 300 0118 094A     		ldr	r2, .L24+4
- 301 011a D35C     		ldrb	r3, [r2, r3]
- 302 011c 09E0     		b	.L22
- 303              	.L21:
-  60:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         }
-  61:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****         kbd_activate (0); 
- 304              		.loc 1 61 0 discriminator 2
- 305 011e 0020     		movs	r0, #0
- 306 0120 FFF7FEFF 		bl	kbd_activate
-  49:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     {
- 307              		.loc 1 49 0 discriminator 2
- 308 0124 7B68     		ldr	r3, [r7, #4]
- 309 0126 0133     		adds	r3, r3, #1
- 310 0128 7B60     		str	r3, [r7, #4]
- 311              	.L20:
-  49:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     {
- 312              		.loc 1 49 0 is_stmt 0 discriminator 1
- 313 012a 7B68     		ldr	r3, [r7, #4]
- 314 012c 042B     		cmp	r3, #4
- 315 012e DDD9     		bls	.L23
-  62:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     }
-  63:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c ****     return 0xff; 
- 316              		.loc 1 63 0 is_stmt 1
- 317 0130 FF23     		movs	r3, #255
- 318              	.L22:
-  64:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/keypad.c **** }...
- 319              		.loc 1 64 0
- 320 0132 1800     		movs	r0, r3
- 321 0134 BD46     		mov	sp, r7
- 322 0136 02B0     		add	sp, sp, #8
- 323              		@ sp needed
- 324 0138 80BD     		pop	{r7, pc}
- 325              	.L25:
- 326 013a C046     		.align	2
- 327              	.L24:
- 328 013c FFFFFF3F 		.word	1073741823
- 329 0140 00000000 		.word	Key
- 330              		.cfi_endproc
- 331              	.LFE3:
- 333              	.Letext0:
- 334              		.file 2 "/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/gpio.h"
+  19              		.bss
+  20              		.align	2
+  21              	heap_end:
+  22 0000 00000000 		.space	4
+  23              		.text
+  24              		.align	2
+  25              		.global	_fstat
+  26              		.code	16
+  27              		.thumb_func
+  29              	_fstat:
+  30              	.LFB1:
+  31              		.file 1 "/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c"
+   1:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** /*
+   2:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** * libMD407.c
+   3:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** * MD407 library
+   4:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** */
+   5:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+   6:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** /* declarations goes to  'libMD407.h' */
+   7:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** #include "libMD407.h"
+   8:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+   9:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** /* Define variables here */
+  10:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** static char* heap_end;
+  11:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  12:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** int _fstat(int file, struct stat* st)
+  13:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+  32              		.loc 1 13 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 8
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36 0000 80B5     		push	{r7, lr}
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 82B0     		sub	sp, sp, #8
+  41              		.cfi_def_cfa_offset 16
+  42 0004 00AF     		add	r7, sp, #0
+  43              		.cfi_def_cfa_register 7
+  44 0006 7860     		str	r0, [r7, #4]
+  45 0008 3960     		str	r1, [r7]
+  14:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     st->st_mode = S_IFCHR;
+  46              		.loc 1 14 0
+  47 000a 3B68     		ldr	r3, [r7]
+  48 000c 8022     		movs	r2, #128
+  49 000e 9201     		lsls	r2, r2, #6
+  50 0010 5A60     		str	r2, [r3, #4]
+  15:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return 0;
+  51              		.loc 1 15 0
+  52 0012 0023     		movs	r3, #0
+  16:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+  53              		.loc 1 16 0
+  54 0014 1800     		movs	r0, r3
+  55 0016 BD46     		mov	sp, r7
+  56 0018 02B0     		add	sp, sp, #8
+  57              		@ sp needed
+  58 001a 80BD     		pop	{r7, pc}
+  59              		.cfi_endproc
+  60              	.LFE1:
+  62              		.align	2
+  63              		.global	_isatty
+  64              		.code	16
+  65              		.thumb_func
+  67              	_isatty:
+  68              	.LFB2:
+  17:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  18:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** int _isatty(int file)
+  19:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+  69              		.loc 1 19 0
+  70              		.cfi_startproc
+  71              		@ args = 0, pretend = 0, frame = 8
+  72              		@ frame_needed = 1, uses_anonymous_args = 0
+  73 001c 80B5     		push	{r7, lr}
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 7, -8
+  76              		.cfi_offset 14, -4
+  77 001e 82B0     		sub	sp, sp, #8
+  78              		.cfi_def_cfa_offset 16
+  79 0020 00AF     		add	r7, sp, #0
+  80              		.cfi_def_cfa_register 7
+  81 0022 7860     		str	r0, [r7, #4]
+  20:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return 1;
+  82              		.loc 1 20 0
+  83 0024 0123     		movs	r3, #1
+  21:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+  84              		.loc 1 21 0
+  85 0026 1800     		movs	r0, r3
+  86 0028 BD46     		mov	sp, r7
+  87 002a 02B0     		add	sp, sp, #8
+  88              		@ sp needed
+  89 002c 80BD     		pop	{r7, pc}
+  90              		.cfi_endproc
+  91              	.LFE2:
+  93 002e C046     		.align	2
+  94              		.global	_open
+  95              		.code	16
+  96              		.thumb_func
+  98              	_open:
+  99              	.LFB3:
+  22:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  23:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** int _open(const char* name, int flags, int mode)
+  24:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+ 100              		.loc 1 24 0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 16
+ 103              		@ frame_needed = 1, uses_anonymous_args = 0
+ 104 0030 80B5     		push	{r7, lr}
+ 105              		.cfi_def_cfa_offset 8
+ 106              		.cfi_offset 7, -8
+ 107              		.cfi_offset 14, -4
+ 108 0032 84B0     		sub	sp, sp, #16
+ 109              		.cfi_def_cfa_offset 24
+ 110 0034 00AF     		add	r7, sp, #0
+ 111              		.cfi_def_cfa_register 7
+ 112 0036 F860     		str	r0, [r7, #12]
+ 113 0038 B960     		str	r1, [r7, #8]
+ 114 003a 7A60     		str	r2, [r7, #4]
+  25:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return -1;
+ 115              		.loc 1 25 0
+ 116 003c 0123     		movs	r3, #1
+ 117 003e 5B42     		rsbs	r3, r3, #0
+  26:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+ 118              		.loc 1 26 0
+ 119 0040 1800     		movs	r0, r3
+ 120 0042 BD46     		mov	sp, r7
+ 121 0044 04B0     		add	sp, sp, #16
+ 122              		@ sp needed
+ 123 0046 80BD     		pop	{r7, pc}
+ 124              		.cfi_endproc
+ 125              	.LFE3:
+ 127              		.align	2
+ 128              		.global	_close
+ 129              		.code	16
+ 130              		.thumb_func
+ 132              	_close:
+ 133              	.LFB4:
+  27:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  28:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** int _close(int file)
+  29:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+ 134              		.loc 1 29 0
+ 135              		.cfi_startproc
+ 136              		@ args = 0, pretend = 0, frame = 8
+ 137              		@ frame_needed = 1, uses_anonymous_args = 0
+ 138 0048 80B5     		push	{r7, lr}
+ 139              		.cfi_def_cfa_offset 8
+ 140              		.cfi_offset 7, -8
+ 141              		.cfi_offset 14, -4
+ 142 004a 82B0     		sub	sp, sp, #8
+ 143              		.cfi_def_cfa_offset 16
+ 144 004c 00AF     		add	r7, sp, #0
+ 145              		.cfi_def_cfa_register 7
+ 146 004e 7860     		str	r0, [r7, #4]
+  30:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return -1;
+ 147              		.loc 1 30 0
+ 148 0050 0123     		movs	r3, #1
+ 149 0052 5B42     		rsbs	r3, r3, #0
+  31:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+ 150              		.loc 1 31 0
+ 151 0054 1800     		movs	r0, r3
+ 152 0056 BD46     		mov	sp, r7
+ 153 0058 02B0     		add	sp, sp, #8
+ 154              		@ sp needed
+ 155 005a 80BD     		pop	{r7, pc}
+ 156              		.cfi_endproc
+ 157              	.LFE4:
+ 159              		.align	2
+ 160              		.global	_lseek
+ 161              		.code	16
+ 162              		.thumb_func
+ 164              	_lseek:
+ 165              	.LFB5:
+  32:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  33:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** int _lseek(int file, int ptr, int dir)
+  34:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+ 166              		.loc 1 34 0
+ 167              		.cfi_startproc
+ 168              		@ args = 0, pretend = 0, frame = 16
+ 169              		@ frame_needed = 1, uses_anonymous_args = 0
+ 170 005c 80B5     		push	{r7, lr}
+ 171              		.cfi_def_cfa_offset 8
+ 172              		.cfi_offset 7, -8
+ 173              		.cfi_offset 14, -4
+ 174 005e 84B0     		sub	sp, sp, #16
+ 175              		.cfi_def_cfa_offset 24
+ 176 0060 00AF     		add	r7, sp, #0
+ 177              		.cfi_def_cfa_register 7
+ 178 0062 F860     		str	r0, [r7, #12]
+ 179 0064 B960     		str	r1, [r7, #8]
+ 180 0066 7A60     		str	r2, [r7, #4]
+  35:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return 0;
+ 181              		.loc 1 35 0
+ 182 0068 0023     		movs	r3, #0
+  36:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+ 183              		.loc 1 36 0
+ 184 006a 1800     		movs	r0, r3
+ 185 006c BD46     		mov	sp, r7
+ 186 006e 04B0     		add	sp, sp, #16
+ 187              		@ sp needed
+ 188 0070 80BD     		pop	{r7, pc}
+ 189              		.cfi_endproc
+ 190              	.LFE5:
+ 192 0072 C046     		.align	2
+ 193              		.global	_write
+ 194              		.code	16
+ 195              		.thumb_func
+ 197              	_write:
+ 198              	.LFB6:
+  37:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  38:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** int _write(int file, char* ptr, int len)
+  39:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+ 199              		.loc 1 39 0
+ 200              		.cfi_startproc
+ 201              		@ args = 0, pretend = 0, frame = 24
+ 202              		@ frame_needed = 1, uses_anonymous_args = 0
+ 203 0074 80B5     		push	{r7, lr}
+ 204              		.cfi_def_cfa_offset 8
+ 205              		.cfi_offset 7, -8
+ 206              		.cfi_offset 14, -4
+ 207 0076 86B0     		sub	sp, sp, #24
+ 208              		.cfi_def_cfa_offset 32
+ 209 0078 00AF     		add	r7, sp, #0
+ 210              		.cfi_def_cfa_register 7
+ 211 007a F860     		str	r0, [r7, #12]
+ 212 007c B960     		str	r1, [r7, #8]
+ 213 007e 7A60     		str	r2, [r7, #4]
+  40:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     int todo;
+  41:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     for(todo = 0; todo < len; todo++) {
+ 214              		.loc 1 41 0
+ 215 0080 0023     		movs	r3, #0
+ 216 0082 7B61     		str	r3, [r7, #20]
+ 217 0084 09E0     		b	.L12
+ 218              	.L13:
+  42:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		_outchar(*ptr++);
+ 219              		.loc 1 42 0 discriminator 3
+ 220 0086 BB68     		ldr	r3, [r7, #8]
+ 221 0088 5A1C     		adds	r2, r3, #1
+ 222 008a BA60     		str	r2, [r7, #8]
+ 223 008c 1B78     		ldrb	r3, [r3]
+ 224 008e 1800     		movs	r0, r3
+ 225 0090 FFF7FEFF 		bl	_outchar
+  41:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		_outchar(*ptr++);
+ 226              		.loc 1 41 0 discriminator 3
+ 227 0094 7B69     		ldr	r3, [r7, #20]
+ 228 0096 0133     		adds	r3, r3, #1
+ 229 0098 7B61     		str	r3, [r7, #20]
+ 230              	.L12:
+  41:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		_outchar(*ptr++);
+ 231              		.loc 1 41 0 is_stmt 0 discriminator 1
+ 232 009a 7A69     		ldr	r2, [r7, #20]
+ 233 009c 7B68     		ldr	r3, [r7, #4]
+ 234 009e 9A42     		cmp	r2, r3
+ 235 00a0 F1DB     		blt	.L13
+  43:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     }
+  44:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return len;
+ 236              		.loc 1 44 0 is_stmt 1
+ 237 00a2 7B68     		ldr	r3, [r7, #4]
+  45:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+ 238              		.loc 1 45 0
+ 239 00a4 1800     		movs	r0, r3
+ 240 00a6 BD46     		mov	sp, r7
+ 241 00a8 06B0     		add	sp, sp, #24
+ 242              		@ sp needed
+ 243 00aa 80BD     		pop	{r7, pc}
+ 244              		.cfi_endproc
+ 245              	.LFE6:
+ 247              		.align	2
+ 248              		.global	_read
+ 249              		.code	16
+ 250              		.thumb_func
+ 252              	_read:
+ 253              	.LFB7:
+  46:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  47:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** int _read(int file, char* ptr, int len)
+  48:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+ 254              		.loc 1 48 0
+ 255              		.cfi_startproc
+ 256              		@ args = 0, pretend = 0, frame = 16
+ 257              		@ frame_needed = 1, uses_anonymous_args = 0
+ 258 00ac 80B5     		push	{r7, lr}
+ 259              		.cfi_def_cfa_offset 8
+ 260              		.cfi_offset 7, -8
+ 261              		.cfi_offset 14, -4
+ 262 00ae 84B0     		sub	sp, sp, #16
+ 263              		.cfi_def_cfa_offset 24
+ 264 00b0 00AF     		add	r7, sp, #0
+ 265              		.cfi_def_cfa_register 7
+ 266 00b2 F860     		str	r0, [r7, #12]
+ 267 00b4 B960     		str	r1, [r7, #8]
+ 268 00b6 7A60     		str	r2, [r7, #4]
+  49:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 	return 0;
+ 269              		.loc 1 49 0
+ 270 00b8 0023     		movs	r3, #0
+  50:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** /*    int todo;
+  51:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  52:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     if(len == 0)
+  53:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		return 0;
+  54:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  55:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     for(todo = 1; todo < len; todo++) {
+  56:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		*ptr++ = _inchar();
+  57:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     }
+  58:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return todo;*/
+  59:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+ 271              		.loc 1 59 0
+ 272 00ba 1800     		movs	r0, r3
+ 273 00bc BD46     		mov	sp, r7
+ 274 00be 04B0     		add	sp, sp, #16
+ 275              		@ sp needed
+ 276 00c0 80BD     		pop	{r7, pc}
+ 277              		.cfi_endproc
+ 278              	.LFE7:
+ 280 00c2 C046     		.align	2
+ 281              		.global	_sbrk
+ 282              		.code	16
+ 283              		.thumb_func
+ 285              	_sbrk:
+ 286              	.LFB8:
+  60:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  61:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** char* _sbrk(int incr)
+  62:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+ 287              		.loc 1 62 0
+ 288              		.cfi_startproc
+ 289              		@ args = 0, pretend = 0, frame = 16
+ 290              		@ frame_needed = 1, uses_anonymous_args = 0
+ 291 00c4 80B5     		push	{r7, lr}
+ 292              		.cfi_def_cfa_offset 8
+ 293              		.cfi_offset 7, -8
+ 294              		.cfi_offset 14, -4
+ 295 00c6 84B0     		sub	sp, sp, #16
+ 296              		.cfi_def_cfa_offset 24
+ 297 00c8 00AF     		add	r7, sp, #0
+ 298              		.cfi_def_cfa_register 7
+ 299 00ca 7860     		str	r0, [r7, #4]
+  63:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     char* prev_heap_end;
+  64:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  65:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     if(heap_end == 0) {
+ 300              		.loc 1 65 0
+ 301 00cc 114B     		ldr	r3, .L21
+ 302 00ce 1B68     		ldr	r3, [r3]
+ 303 00d0 002B     		cmp	r3, #0
+ 304 00d2 02D1     		bne	.L18
+  66:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		heap_end = &heap_low;
+ 305              		.loc 1 66 0
+ 306 00d4 0F4B     		ldr	r3, .L21
+ 307 00d6 104A     		ldr	r2, .L21+4
+ 308 00d8 1A60     		str	r2, [r3]
+ 309              	.L18:
+  67:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     }
+  68:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     prev_heap_end = heap_end;
+ 310              		.loc 1 68 0
+ 311 00da 0E4B     		ldr	r3, .L21
+ 312 00dc 1B68     		ldr	r3, [r3]
+ 313 00de FB60     		str	r3, [r7, #12]
+  69:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  70:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     if(heap_end + incr > &heap_top) {
+ 314              		.loc 1 70 0
+ 315 00e0 0C4B     		ldr	r3, .L21
+ 316 00e2 1A68     		ldr	r2, [r3]
+ 317 00e4 7B68     		ldr	r3, [r7, #4]
+ 318 00e6 D218     		adds	r2, r2, r3
+ 319 00e8 0C4B     		ldr	r3, .L21+8
+ 320 00ea 9A42     		cmp	r2, r3
+ 321 00ec 07D9     		bls	.L19
+  71:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		/* Heap and stack collision */
+  72:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		errno = ENOMEM;
+ 322              		.loc 1 72 0
+ 323 00ee FFF7FEFF 		bl	__errno
+ 324 00f2 0300     		movs	r3, r0
+ 325 00f4 0C22     		movs	r2, #12
+ 326 00f6 1A60     		str	r2, [r3]
+  73:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		return (char*)-1;
+ 327              		.loc 1 73 0
+ 328 00f8 0123     		movs	r3, #1
+ 329 00fa 5B42     		rsbs	r3, r3, #0
+ 330 00fc 06E0     		b	.L20
+ 331              	.L19:
+  74:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     }
+  75:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     heap_end += incr;
+ 332              		.loc 1 75 0
+ 333 00fe 054B     		ldr	r3, .L21
+ 334 0100 1A68     		ldr	r2, [r3]
+ 335 0102 7B68     		ldr	r3, [r7, #4]
+ 336 0104 D218     		adds	r2, r2, r3
+ 337 0106 034B     		ldr	r3, .L21
+ 338 0108 1A60     		str	r2, [r3]
+  76:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     return (char*)prev_heap_end;
+ 339              		.loc 1 76 0
+ 340 010a FB68     		ldr	r3, [r7, #12]
+ 341              	.L20:
+  77:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+ 342              		.loc 1 77 0
+ 343 010c 1800     		movs	r0, r3
+ 344 010e BD46     		mov	sp, r7
+ 345 0110 04B0     		add	sp, sp, #16
+ 346              		@ sp needed
+ 347 0112 80BD     		pop	{r7, pc}
+ 348              	.L22:
+ 349              		.align	2
+ 350              	.L21:
+ 351 0114 00000000 		.word	heap_end
+ 352 0118 00000000 		.word	heap_low
+ 353 011c 00000000 		.word	heap_top
+ 354              		.cfi_endproc
+ 355              	.LFE8:
+ 357              		.align	2
+ 358              		.global	crt_init
+ 359              		.code	16
+ 360              		.thumb_func
+ 362              	crt_init:
+ 363              	.LFB9:
+  78:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 
+  79:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** void crt_init()
+  80:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** {
+ 364              		.loc 1 80 0
+ 365              		.cfi_startproc
+ 366              		@ args = 0, pretend = 0, frame = 8
+ 367              		@ frame_needed = 1, uses_anonymous_args = 0
+ 368 0120 80B5     		push	{r7, lr}
+ 369              		.cfi_def_cfa_offset 8
+ 370              		.cfi_offset 7, -8
+ 371              		.cfi_offset 14, -4
+ 372 0122 82B0     		sub	sp, sp, #8
+ 373              		.cfi_def_cfa_offset 16
+ 374 0124 00AF     		add	r7, sp, #0
+ 375              		.cfi_def_cfa_register 7
+  81:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     extern char _sbss; /* Defined by linker */
+  82:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     extern char _ebss; /* Defined by linker */
+  83:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 	char* s;
+  84:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     s = &_sbss;
+ 376              		.loc 1 84 0
+ 377 0126 0F4B     		ldr	r3, .L28
+ 378 0128 7B60     		str	r3, [r7, #4]
+  85:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 	
+  86:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     while(s < &_ebss)
+ 379              		.loc 1 86 0
+ 380 012a 04E0     		b	.L24
+ 381              	.L25:
+  87:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		*s++ = 0;
+ 382              		.loc 1 87 0
+ 383 012c 7B68     		ldr	r3, [r7, #4]
+ 384 012e 5A1C     		adds	r2, r3, #1
+ 385 0130 7A60     		str	r2, [r7, #4]
+ 386 0132 0022     		movs	r2, #0
+ 387 0134 1A70     		strb	r2, [r3]
+ 388              	.L24:
+  86:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		*s++ = 0;
+ 389              		.loc 1 86 0
+ 390 0136 7A68     		ldr	r2, [r7, #4]
+ 391 0138 0B4B     		ldr	r3, .L28+4
+ 392 013a 9A42     		cmp	r2, r3
+ 393 013c F6D3     		bcc	.L25
+  88:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		
+  89:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     s = &heap_low;
+ 394              		.loc 1 89 0
+ 395 013e 0B4B     		ldr	r3, .L28+8
+ 396 0140 7B60     		str	r3, [r7, #4]
+  90:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     while(s < &heap_top)
+ 397              		.loc 1 90 0
+ 398 0142 04E0     		b	.L26
+ 399              	.L27:
+  91:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		*s++ = 0;
+ 400              		.loc 1 91 0
+ 401 0144 7B68     		ldr	r3, [r7, #4]
+ 402 0146 5A1C     		adds	r2, r3, #1
+ 403 0148 7A60     		str	r2, [r7, #4]
+ 404 014a 0022     		movs	r2, #0
+ 405 014c 1A70     		strb	r2, [r3]
+ 406              	.L26:
+  90:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     while(s < &heap_top)
+ 407              		.loc 1 90 0
+ 408 014e 7A68     		ldr	r2, [r7, #4]
+ 409 0150 074B     		ldr	r3, .L28+12
+ 410 0152 9A42     		cmp	r2, r3
+ 411 0154 F6D3     		bcc	.L27
+  92:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** 		
+  93:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c ****     heap_end = 0;
+ 412              		.loc 1 93 0
+ 413 0156 074B     		ldr	r3, .L28+16
+ 414 0158 0022     		movs	r2, #0
+ 415 015a 1A60     		str	r2, [r3]
+  94:/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.c **** }
+ 416              		.loc 1 94 0
+ 417 015c C046     		nop
+ 418 015e BD46     		mov	sp, r7
+ 419 0160 02B0     		add	sp, sp, #8
+ 420              		@ sp needed
+ 421 0162 80BD     		pop	{r7, pc}
+ 422              	.L29:
+ 423              		.align	2
+ 424              	.L28:
+ 425 0164 00000000 		.word	_sbss
+ 426 0168 00000000 		.word	_ebss
+ 427 016c 00000000 		.word	heap_low
+ 428 0170 00000000 		.word	heap_top
+ 429 0174 00000000 		.word	heap_end
+ 430              		.cfi_endproc
+ 431              	.LFE9:
+ 433              	.Letext0:
+ 434              		.file 2 "/usr/local/gcc-arm/arm-none-eabi/include/machine/_default_types.h"
+ 435              		.file 3 "/usr/local/gcc-arm/arm-none-eabi/include/sys/_types.h"
+ 436              		.file 4 "/usr/local/gcc-arm/arm-none-eabi/include/sys/_timeval.h"
+ 437              		.file 5 "/usr/local/gcc-arm/arm-none-eabi/include/sys/types.h"
+ 438              		.file 6 "/usr/local/gcc-arm/arm-none-eabi/include/sys/stat.h"
+ 439              		.file 7 "/home/grace/Dokument/MaskinorienteradProgrammering/labb5-sidju/snek-MOP/libMD407.h"
