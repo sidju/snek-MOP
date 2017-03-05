@@ -7,6 +7,7 @@
 #include "ascii.h"
 #include "grafikDisp.h"
 #include "keypad.h"
+#include "libMD407.h"
 
 #define NULL ((void *)0)
 
@@ -148,7 +149,7 @@ static void full_print_score(void) {
 static void main_menu(void)
 {
 	ascii_gotoxy(1,1);
-	acsii_print("Press 2, 4, 6 or 8 to start");
+	ascii_print("Press 2, 4, 6 or 8 to start");
 	while (( Keyb() != (2||4||6||8) ))
 	{}
 }

@@ -136,6 +136,8 @@ monitor restart</PostConnectCommands>
     <File Name="grafikDisp.h"/>
     <File Name="ascii.c"/>
     <File Name="ascii.h"/>
+    <File Name="libMD407.c"/>
+    <File Name="libMD407.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="md407-ram.x"/>

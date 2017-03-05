@@ -19,3 +19,4 @@ uint8_t ascii_read_data ();
 void ascii_init();
 void ascii_gotoxy(uint8_t x, uint8_t y);
 void ascii_write_char(unsigned char c);  
+void ascii_print(char* string);
