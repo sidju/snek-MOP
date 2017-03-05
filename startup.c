@@ -77,6 +77,9 @@ static void grow_snake(void)
     SEGMENT *new_tail;  
     new_tail=malloc(sizeof(SEGMENT)); 
     new_tail->next = tail;
+	
+	// om man flyttar in koden efter detta till en if loop i move snake kan man veta var svansen är på väg
+	
     new_tail ->x = tail->x;    /*samma position som tail, pgv svårt att veta var svansen är på väg*/
     new_tail ->y = tail->y;
     tail = new_tail;     
@@ -166,7 +169,20 @@ static void init_game(void)
 	full_print_score();
 }
 
-static void check_collision()
+
+static void control_snake(void)
+{
+	switch(Keyb()){
+		case 2: diry = -2; dirx = 0; break;
+		case 8: diry = 2; dirx = 0; break;
+		case 4: diry = 0; dirx = -2; break;
+		case 6: diry = 0; dirx = 2; break;
+	}
+	
+}
+
+
+static void check_collision(void)
 {
 	SEGMENT* ptr = tail;
 	while (ptr != head)
@@ -216,6 +232,13 @@ static void free_game(void)
 
 	free(apple);
 }
+
+
+static void show_menu(void)
+{
+	
+}
+
 
 static void play_game(void)
 {
