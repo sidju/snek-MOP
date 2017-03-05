@@ -127,6 +127,7 @@ static void print_score(void) {
     int local_score = score;
     
 	/* division med 10 går inte att kompilera */
+	/* därför gör vi såhär: */
 	
     if (local_score > 99)
         local_score = 99;
